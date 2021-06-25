@@ -2,16 +2,18 @@ import path from 'path';
 import cloud from 'cloudinary';
 import DataURI from 'datauri';
 
-import { getEnv, removeFileExtension } from '.';
+import { getEnv, removeFileExtension, setEnv } from '.';
 
 const dUri = new DataURI();
 
 /**
  * @callback UploaderInitialize
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @param {Function} next - Express next function
- * @return {null} Null
+ * @param {Object} config - Configuration object
+ * @param {string} config.cloudName - Cloud Name
+ * @param {string} config.apiKey - API Key
+ * @param {string} config.apiSecret - API Secret
+ * @param {string} config.baseFolder - Base Folder
+ * @return {function(Object, Object, Function): JSON} Express middleware function
  */
 
 /**
@@ -55,12 +57,13 @@ const toDataUri = config => {
 };
 
 // eslint-disable-next-line require-jsdoc
-const initialize = (req, res, next) => {
+const initialize = config => (req, res, next) => {
   cloud.config({
-    cloud_name: getEnv().CLOUDINARY_CLOUD_NAME,
-    api_key: getEnv().CLOUDINARY_API_KEY,
-    api_secret: getEnv().CLOUDINARY_API_SECRET,
+    cloud_name: config.cloudName,
+    api_key: config.apiKey,
+    api_secret: config.apiSecret,
   });
+  setEnv({ cloudBaseFolder: config.baseFolder || '' });
   next();
 };
 
@@ -69,7 +72,8 @@ const initialize = (req, res, next) => {
  * @return {string} base folder
  */
 const getBaseFolder = () => {
-  return `${getEnv().APP_NAME}/${getEnv().APP_ENV}`;
+  const { cloudBaseFolder, APP_ENV, NODE_ENV } = getEnv();
+  return `${cloudBaseFolder}/${APP_ENV || NODE_ENV}`.trim().replace(/^(\/)|(\/)$/g, '') || '';
 };
 
 /**

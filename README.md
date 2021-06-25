@@ -721,7 +721,6 @@ Application logger
 | [code] | <code>Number</code> | 301 or 302 based on permanent or temporary |
 
 # Uploader
-
 ## Constants
 
 <dl>
@@ -745,7 +744,7 @@ Application logger
 ## Typedefs
 
 <dl>
-<dt><a href="#UploaderInitialize">UploaderInitialize</a> ⇒ <code>null</code></dt>
+<dt><a href="#UploaderInitialize">UploaderInitialize</a> ⇒ <code>function</code></dt>
 <dd></dd>
 <dt><a href="#UploadImageFromDataURI">UploadImageFromDataURI</a> ⇒ <code>Promise.&lt;*&gt;</code></dt>
 <dd></dd>
@@ -802,15 +801,17 @@ This function converts the buffer to data url
 
 <a name="UploaderInitialize"></a>
 
-## UploaderInitialize ⇒ <code>null</code>
+## UploaderInitialize ⇒ <code>function</code>
 **Kind**: global typedef  
-**Returns**: <code>null</code> - Null  
+**Returns**: <code>function</code> - Express middleware function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| req | <code>Object</code> | Express request object |
-| res | <code>Object</code> | Express response object |
-| next | <code>function</code> | Express next function |
+| config | <code>Object</code> | Configuration object |
+| config.cloudName | <code>string</code> | Cloud Name |
+| config.apiKey | <code>string</code> | API Key |
+| config.apiSecret | <code>string</code> | API Secret |
+| config.baseFolder | <code>string</code> | Base Folder |
 
 <a name="UploadImageFromDataURI"></a>
 
