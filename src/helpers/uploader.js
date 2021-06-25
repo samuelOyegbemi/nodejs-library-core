@@ -8,12 +8,11 @@ const dUri = new DataURI();
 
 /**
  * @callback UploaderInitialize
- * @param {Object} config - Configuration object
- * @param {string} config.cloudName - Cloud Name
- * @param {string} config.apiKey - API Key
- * @param {string} config.apiSecret - API Secret
- * @param {string} config.baseFolder - Base Folder
- * @return {*} Express middleware function
+ * @param {Object} req - Express request object
+ * @param {Object} req.cloudConfig - Cloud configuration which must be appended to request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next function
+ * @return {null} Null
  */
 
 /**
@@ -57,13 +56,14 @@ const toDataUri = config => {
 };
 
 // eslint-disable-next-line require-jsdoc
-const initialize = config => (req, res, next) => {
+const initialize = (req, res, next) => {
+  const { cloudConfig = {} } = req;
   cloud.config({
-    cloud_name: config.cloudName,
-    api_key: config.apiKey,
-    api_secret: config.apiSecret,
+    cloud_name: cloudConfig.cloudName,
+    api_key: cloudConfig.apiKey,
+    api_secret: cloudConfig.apiSecret,
   });
-  setEnv({ cloudBaseFolder: config.baseFolder || '' });
+  setEnv({ cloudBaseFolder: cloudConfig.baseFolder || '' });
   next();
 };
 

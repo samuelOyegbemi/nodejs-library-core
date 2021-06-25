@@ -744,7 +744,7 @@ Application logger
 ## Typedefs
 
 <dl>
-<dt><a href="#UploaderInitialize">UploaderInitialize</a> ⇒ <code>function</code></dt>
+<dt><a href="#UploaderInitialize">UploaderInitialize</a> ⇒ <code>null</code></dt>
 <dd></dd>
 <dt><a href="#UploadImageFromDataURI">UploadImageFromDataURI</a> ⇒ <code>Promise.&lt;*&gt;</code></dt>
 <dd></dd>
@@ -801,17 +801,16 @@ This function converts the buffer to data url
 
 <a name="UploaderInitialize"></a>
 
-## UploaderInitialize ⇒ <code>function</code>
+## UploaderInitialize ⇒ <code>null</code>
 **Kind**: global typedef  
-**Returns**: <code>function</code> - Express middleware function  
+**Returns**: <code>null</code> - Null  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| config | <code>Object</code> | Configuration object |
-| config.cloudName | <code>string</code> | Cloud Name |
-| config.apiKey | <code>string</code> | API Key |
-| config.apiSecret | <code>string</code> | API Secret |
-| config.baseFolder | <code>string</code> | Base Folder |
+| req | <code>Object</code> | Express request object |
+| req.cloudConfig | <code>Object</code> | Cloud configuration which must be appended to request object |
+| res | <code>Object</code> | Express response object |
+| next | <code>function</code> | Express next function |
 
 <a name="UploadImageFromDataURI"></a>
 

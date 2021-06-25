@@ -1,6 +1,6 @@
 {
   "name": "@wbc-nodejs/core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Core Nodejs library for Webcoupers",
   "main": "build/index.js",
   "types": "build/types.d.ts",
