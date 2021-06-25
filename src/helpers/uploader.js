@@ -13,7 +13,7 @@ const dUri = new DataURI();
  * @param {string} config.apiKey - API Key
  * @param {string} config.apiSecret - API Secret
  * @param {string} config.baseFolder - Base Folder
- * @return {function(Object, Object, Function): JSON} Express middleware function
+ * @return {*} Express middleware function
  */
 
 /**
