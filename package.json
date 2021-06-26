@@ -1,18 +1,26 @@
 {
   "name": "@wbc-nodejs/core",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "Core Nodejs library for Webcoupers",
   "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "types": "build/types",
   "files": [
     "build/**/*"
   ],
+  "exports": {
+    ".": {
+      "node": {
+        "module": "build/index.js"
+      }
+    }
+  },
+  "module": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf build && mkdir build",
     "build": "yarn clean && yarn build-babel",
     "build-babel": "babel ./src --out-dir build",
-    "prepublishOnly": "yarn build && jsdoc -t node_modules/tsd-jsdoc/dist -r ./src -d build && mv build/types.d.ts build/index.d.ts"
+    "prepublishOnly": "yarn build && jsdoc -t node_modules/tsd-jsdoc/dist -r ./src -d build/types && mv build/types/types.d.ts build/types/index.d.ts"
   },
   "repository": {
     "type": "git",

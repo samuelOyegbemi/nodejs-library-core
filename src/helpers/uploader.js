@@ -34,7 +34,7 @@ const constructFolder = folder => {
 };
 
 /**
- * @module uploader
+ * @namespace uploader
  * */
 const uploader = {};
 
@@ -44,6 +44,7 @@ const uploader = {};
  * @param {Object} req.cloudConfig - Cloud configuration which must be appended to request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next function
+ * @memberOf uploader
  * @return {null} Null
  */
 uploader.initialize = (req, res, next) => {
@@ -62,6 +63,7 @@ uploader.initialize = (req, res, next) => {
  * @param {string} dataURI - a base64 representation of the file
  * @param {string} fileName - Name of the file to upload
  * @param {string} [folder] - the folder to upload the file excluding the main folder
+ * @memberOf uploader
  * @return {Promise<*>} Uploader
  */
 uploader.uploadImageFromDataURI = (dataURI, fileName, folder = '') => {
@@ -75,6 +77,7 @@ uploader.uploadImageFromDataURI = (dataURI, fileName, folder = '') => {
  * @param {*} file - file
  * @param {string} fileName - Name of the file to upload
  * @param {string} [folder] - the folder to upload the file excluding the main folder
+ * @memberOf uploader
  * @return {Promise<*>} Uploader
  */
 uploader.uploadImageFromFile = (file, fileName, folder = '') => {
@@ -85,6 +88,7 @@ uploader.uploadImageFromFile = (file, fileName, folder = '') => {
 /**
  * @method removeImage
  * @param {string} link - The cloudinary link to the image
+ * @memberOf uploader
  * @return {*} Null
  */
 uploader.removeImage = link => {
@@ -98,6 +102,7 @@ uploader.removeImage = link => {
 /**
  * @method getFilesInFolder
  * @param {string} folder - the folder to load the files from
+ * @memberOf uploader
  * @return {Promise<any>} Resources
  */
 uploader.getFilesInFolder = folder => {

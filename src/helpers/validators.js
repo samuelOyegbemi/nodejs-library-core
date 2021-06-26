@@ -87,23 +87,24 @@ const getValidator = location => {
 /**
  * @namespace validator
  * */
+const validator = {};
 
 /**
  * @type {ValidatorInstance}
  * @memberOf validator
  */
-const body = getValidator('body');
+validator.body = getValidator('body');
 
 /**
  * @type {ValidatorInstance}
  * @memberOf validator
  */
-const param = getValidator('param');
+validator.param = getValidator('param');
 
 /**
  * @type {ValidatorInstance}
  * @memberOf validator
  */
-const query = getValidator('query');
+validator.query = getValidator('query');
 
-export default { body, param, query };
+export { validator };

@@ -11,7 +11,8 @@ import { isTypeOf } from './index';
  */
 
 /**
- * @module jwt
+ * @export
+ * @namespace jwt
  * */
 const jwtHelper = {};
 
@@ -20,6 +21,7 @@ const jwtHelper = {};
  * @description To generate a jwt
  * @param {Object} user - The user to create a token for
  * @param {string} [lifeSpan] - The lifespan of the token to be created
+ * @memberOf jwt
  * @returns {undefined|string} The generated token string
  */
 jwtHelper.makeToken = (user, lifeSpan = jwtConfig.ACCESS_TOKEN_LIFESPAN) =>
@@ -30,6 +32,7 @@ jwtHelper.makeToken = (user, lifeSpan = jwtConfig.ACCESS_TOKEN_LIFESPAN) =>
  * @description To verify a given jwt
  * @param {String} token - the access token string
  * @param {Boolean} [includeSignature=true] - Whether or not to include signature
+ * @memberOf jwt
  * @return {Object} the user object
  */
 jwtHelper.verifyToken = (token, includeSignature = true) => {
@@ -67,6 +70,7 @@ jwtHelper.verifyToken = (token, includeSignature = true) => {
  * @method generateTokens
  * @description To generate both access and refresh token for a given user
  * @param {Object} user - The user to generate tokens for
+ * @memberOf jwt
  * @returns {{access: string, refresh: string}} The generated token object containing access token and refresh token
  */
 jwtHelper.generateTokens = user => {
@@ -80,6 +84,7 @@ jwtHelper.generateTokens = user => {
  * @description To get new access token from a refresh token
  * @param {string} refreshToken - the refresh token
  * @param {RefreshTokenGetUser | Function} getUser - Function to get user
+ * @memberOf jwt
  * @returns {Promise<Array>} The new access token and the user data
  */
 jwtHelper.renewAccessToken = async (refreshToken, getUser) => {
@@ -108,4 +113,4 @@ jwtHelper.renewAccessToken = async (refreshToken, getUser) => {
   });
 };
 
-export default jwtHelper;
+export { jwtHelper };
