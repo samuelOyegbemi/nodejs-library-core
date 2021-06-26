@@ -343,6 +343,17 @@ const convertToSlug = text => {
     .replace(/ +/g, '-');
 };
 
+/**
+ * @method increaseDateBySeconds
+ * @param {number} [seconds=0]
+ * @param {Date} [dt=now] - DateTime
+ * @return {Date} The new date
+ */
+const increaseDateBySeconds = (seconds = 0, dt = new Date()) => {
+  dt.setSeconds(dt.getSeconds() + seconds);
+  return dt;
+};
+
 export {
   getEnv,
   setEnv,
@@ -362,4 +373,5 @@ export {
   base64Encode,
   base64Decode,
   convertToSlug,
+  increaseDateBySeconds,
 };

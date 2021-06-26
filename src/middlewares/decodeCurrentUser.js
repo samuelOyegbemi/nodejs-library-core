@@ -1,4 +1,4 @@
-import jwtHelper from '../helpers/jwt';
+import { jwtHelper } from '../helpers/jwt';
 import { getTokensFromRequest } from '../helpers';
 
 /**
