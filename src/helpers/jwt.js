@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jsonWebToken from 'jsonwebtoken';
 import { jwtConfig } from '../config/jwt';
 import { AuthenticationError, CustomError } from './errors';
 import { isTypeOf } from './index';
@@ -14,7 +14,7 @@ import { isTypeOf } from './index';
  * @export
  * @namespace jwt
  * */
-const jwtHelper = {};
+const jwt = {};
 
 /**
  * @method makeToken
@@ -24,8 +24,8 @@ const jwtHelper = {};
  * @memberOf jwt
  * @returns {undefined|string} The generated token string
  */
-jwtHelper.makeToken = (user, lifeSpan = jwtConfig.ACCESS_TOKEN_LIFESPAN) =>
-  jwt.sign(user, jwtConfig.SECRET_KEY, { expiresIn: lifeSpan });
+jwt.makeToken = (user, lifeSpan = jwtConfig.ACCESS_TOKEN_LIFESPAN) =>
+  jsonWebToken.sign(user, jwtConfig.SECRET_KEY, { expiresIn: lifeSpan });
 
 /**
  * @method verifyToken
@@ -35,7 +35,7 @@ jwtHelper.makeToken = (user, lifeSpan = jwtConfig.ACCESS_TOKEN_LIFESPAN) =>
  * @memberOf jwt
  * @return {Object} the user object
  */
-jwtHelper.verifyToken = (token, includeSignature = true) => {
+jwt.verifyToken = (token, includeSignature = true) => {
   if (!token) {
     throw new AuthenticationError('Unauthorized: token not found!');
   }
@@ -43,7 +43,7 @@ jwtHelper.verifyToken = (token, includeSignature = true) => {
   if (!jwtConfig.SECRET_KEY) {
     throw new Error(`APP_KEY environment variable is required!`);
   }
-  return jwt.verify(token, jwtConfig.SECRET_KEY, (err, decoded) => {
+  return jsonWebToken.verify(token, jwtConfig.SECRET_KEY, (err, decoded) => {
     if (err) {
       switch (err.name) {
         case 'TokenExpiredError':
@@ -73,9 +73,9 @@ jwtHelper.verifyToken = (token, includeSignature = true) => {
  * @memberOf jwt
  * @returns {{access: string, refresh: string}} The generated token object containing access token and refresh token
  */
-jwtHelper.generateTokens = user => {
-  const access = jwtHelper.makeToken(user);
-  const refresh = jwtHelper.makeToken({ id: user.id }, jwtConfig.REFRESH_TOKEN_LIFESPAN);
+jwt.generateTokens = user => {
+  const access = jwt.makeToken(user);
+  const refresh = jwt.makeToken({ id: user.id }, jwtConfig.REFRESH_TOKEN_LIFESPAN);
   return { access, refresh };
 };
 
@@ -87,14 +87,14 @@ jwtHelper.generateTokens = user => {
  * @memberOf jwt
  * @returns {Promise<Array>} The new access token and the user data
  */
-jwtHelper.renewAccessToken = async (refreshToken, getUser) => {
+jwt.renewAccessToken = async (refreshToken, getUser) => {
   if (!refreshToken) {
     throw new AuthenticationError('Invalid arguments: provide user and refresh token', {
       subCode: 2,
     });
   }
   let user;
-  const decodedUser = await jwtHelper.verifyToken(refreshToken, false);
+  const decodedUser = await jwt.verifyToken(refreshToken, false);
   if (isTypeOf(getUser, 'Function') && decodedUser && decodedUser.id) {
     user = getUser(decodedUser.id);
   }
@@ -105,7 +105,7 @@ jwtHelper.renewAccessToken = async (refreshToken, getUser) => {
     throw new CustomError('Unable to refresh token: could not read user detail');
   }
   if (decodedUser && decodedUser.id) {
-    const token = jwtHelper.makeToken(user);
+    const token = jwt.makeToken(user);
     return [token, user];
   }
   throw new AuthenticationError('Invalid refreshToken: supplied token is invalid', {
@@ -113,4 +113,4 @@ jwtHelper.renewAccessToken = async (refreshToken, getUser) => {
   });
 };
 
-export { jwtHelper };
+export { jwt };
