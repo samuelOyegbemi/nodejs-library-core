@@ -1,5 +1,5 @@
 /**
- * @name CustomError
+ * @class CustomError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.httpStatusCode]
@@ -36,7 +36,7 @@ CustomError.prototype.serializeError = function serializeError(includeStackTrace
 };
 
 /**
- * @name RequestValidationError
+ * @class RequestValidationError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -52,7 +52,7 @@ RequestValidationError.prototype = Object.create(CustomError.prototype);
 RequestValidationError.prototype.name = 'RequestValidationError';
 
 /**
- * @name AuthenticationError
+ * @class AuthenticationError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -68,7 +68,7 @@ AuthenticationError.prototype = Object.create(CustomError.prototype);
 AuthenticationError.prototype.name = 'AuthenticationError';
 
 /**
- * @name AuthorizationError
+ * @class AuthorizationError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -84,7 +84,7 @@ AuthorizationError.prototype = Object.create(CustomError.prototype);
 AuthorizationError.prototype.name = 'AuthorizationError';
 
 /**
- * @name NotFoundError
+ * @class NotFoundError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -100,7 +100,7 @@ NotFoundError.prototype = Object.create(CustomError.prototype);
 NotFoundError.prototype.name = 'NotFoundError';
 
 /**
- * @name ConflictError
+ * @class ConflictError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]

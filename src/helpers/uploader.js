@@ -7,43 +7,6 @@ import { getEnv, removeFileExtension, setEnv } from '.';
 const dUri = new DataURI();
 
 /**
- * @callback UploaderInitialize
- * @param {Object} req - Express request object
- * @param {Object} req.cloudConfig - Cloud configuration which must be appended to request object
- * @param {Object} res - Express response object
- * @param {Function} next - Express next function
- * @return {null} Null
- */
-
-/**
- * @callback UploadImageFromDataURI
- * @param {string} dataURI - a base64 representation of the file
- * @param {string} fileName - Name of the file to upload
- * @param {string} [folder] - the folder to upload the file excluding the main folder
- * @return {Promise<*>} Uploader
- */
-
-/**
- * @callback UploadImageFromFile
- * @param {string} dataURI - a base64 representation of the file
- * @param {string} fileName - Name of the file to upload
- * @param {string} [folder] - the folder to upload the file excluding the main folder
- * @return {Promise<*>} Uploader
- */
-
-/**
- * @callback UploaderRemoveImage
- * @param {string} link - The cloudinary link to the image
- * @return {*} Null
- */
-
-/**
- * @callback UploaderGetFilesInFolder
- * @param {string} folder - the folder to load the files from
- * @return {Promise<any>} Resources
- */
-
-/**
  * @method toDataUri
  * @description This function converts the buffer to data url
  * @param {{file: File} | File} config - Express request object
@@ -56,7 +19,34 @@ const toDataUri = config => {
 };
 
 // eslint-disable-next-line require-jsdoc
-const initialize = (req, res, next) => {
+const getBaseFolder = () => {
+  const { cloudBaseFolder, APP_ENV, NODE_ENV } = getEnv();
+  return `${cloudBaseFolder}/${APP_ENV || NODE_ENV}`.trim().replace(/^(\/)|(\/)$/g, '') || '';
+};
+
+// eslint-disable-next-line require-jsdoc
+const constructFolder = folder => {
+  folder = folder || '';
+  folder = folder.endsWith('/') ? folder.slice(0, -1) : folder;
+  folder = folder.startsWith('/') ? folder.slice(1) : folder;
+  folder = `${getBaseFolder()}/${folder.trim()}`;
+  return folder;
+};
+
+/**
+ * @module uploader
+ * */
+const uploader = {};
+
+/**
+ * @method initialize
+ * @param {Object} req - Express request object
+ * @param {Object} req.cloudConfig - Cloud configuration which must be appended to request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next function
+ * @return {null} Null
+ */
+uploader.initialize = (req, res, next) => {
   const { cloudConfig = {} } = req;
   cloud.config({
     cloud_name: cloudConfig.cloudName,
@@ -68,42 +58,36 @@ const initialize = (req, res, next) => {
 };
 
 /**
- * @method getBaseFolder
- * @return {string} base folder
+ * @method uploadImageFromDataURI
+ * @param {string} dataURI - a base64 representation of the file
+ * @param {string} fileName - Name of the file to upload
+ * @param {string} [folder] - the folder to upload the file excluding the main folder
+ * @return {Promise<*>} Uploader
  */
-const getBaseFolder = () => {
-  const { cloudBaseFolder, APP_ENV, NODE_ENV } = getEnv();
-  return `${cloudBaseFolder}/${APP_ENV || NODE_ENV}`.trim().replace(/^(\/)|(\/)$/g, '') || '';
-};
-
-/**
- * @method constructFolder
- * @param {string} folder
- * @return {string} refined folder
- */
-const constructFolder = folder => {
-  folder = folder || '';
-  folder = folder.endsWith('/') ? folder.slice(0, -1) : folder;
-  folder = folder.startsWith('/') ? folder.slice(1) : folder;
-  folder = `${getBaseFolder()}/${folder.trim()}`;
-  return folder;
-};
-
-// eslint-disable-next-line require-jsdoc
-const uploadImageFromDataURI = (dataURI, fileName, folder = '') => {
+uploader.uploadImageFromDataURI = (dataURI, fileName, folder = '') => {
   fileName = removeFileExtension(fileName);
   folder = constructFolder(folder);
   return cloud.v2.uploader.upload(dataURI, { folder, public_id: fileName });
 };
 
-// eslint-disable-next-line require-jsdoc
-const uploadImageFromFile = (file, fileName, folder = '') => {
+/**
+ * @method uploadImageFromFile
+ * @param {*} file - file
+ * @param {string} fileName - Name of the file to upload
+ * @param {string} [folder] - the folder to upload the file excluding the main folder
+ * @return {Promise<*>} Uploader
+ */
+uploader.uploadImageFromFile = (file, fileName, folder = '') => {
   const dataURI = toDataUri(file).content;
-  return uploadImageFromDataURI(dataURI, fileName, folder);
+  return uploader.uploadImageFromDataURI(dataURI, fileName, folder);
 };
 
-// eslint-disable-next-line require-jsdoc
-const removeImage = link => {
+/**
+ * @method removeImage
+ * @param {string} link - The cloudinary link to the image
+ * @return {*} Null
+ */
+uploader.removeImage = link => {
   [, link] = link.split(`/${getBaseFolder()}/`);
   if (!link) return;
   link = removeFileExtension(link);
@@ -111,8 +95,12 @@ const removeImage = link => {
   cloud.v2.uploader.destroy(link).catch(() => {});
 };
 
-// eslint-disable-next-line require-jsdoc
-const getFilesInFolder = folder => {
+/**
+ * @method getFilesInFolder
+ * @param {string} folder - the folder to load the files from
+ * @return {Promise<any>} Resources
+ */
+uploader.getFilesInFolder = folder => {
   folder = constructFolder(folder);
   return cloud.v2.api.resources({
     type: 'upload',
@@ -120,21 +108,4 @@ const getFilesInFolder = folder => {
   });
 };
 
-export { DataURI, toDataUri };
-
-/**
- * Uploader
- * @const
- * @property {UploaderInitialize} initialize
- * @property {UploadImageFromDataURI} uploadImageFromDataURI
- * @property {UploadImageFromDataURI} uploadImageFromFile
- * @property {UploaderRemoveImage} removeImage
- * @property {UploaderGetFilesInFolder} getFilesInFolder
- */
-export const uploader = {
-  initialize,
-  uploadImageFromDataURI,
-  uploadImageFromFile,
-  removeImage,
-  getFilesInFolder,
-};
+export { DataURI, toDataUri, uploader };

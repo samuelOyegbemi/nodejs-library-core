@@ -6,7 +6,7 @@ let { env = {} } = process || {};
 
 /**
  * @const env
- * @type {Object}
+ * @type {Object.<string, *>}
  */
 env = {
   ...env,
@@ -45,7 +45,7 @@ const getDistinctFrequency = array => {
 /**
  * @method getEnv
  * @description get all the system environment variables
- * @returns {Object} Environment variables
+ * @returns {Object.<string, *>} Environment variables
  */
 const getEnv = () => {
   return env;
@@ -64,7 +64,7 @@ const setEnv = newEnv => {
 };
 
 /**
- * @callback PaginationFunction
+ * @typedef {function} PaginationFunction
  * @param {string | number} [page=1] - page to query
  * @param {string | number} [limit=10] - limit for the query
  * @param {Object} [options] - Options for the model

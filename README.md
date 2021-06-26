@@ -8,14 +8,7 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 
 ## Required Environment Variables
 
-- CLOUDINARY_CLOUD_NAME
-- CLOUDINARY_API_KEY
-- CLOUDINARY_API_SECRET
-- ACCESS_TOKEN_LIFESPAN
-- REFRESH_TOKEN_LIFESPAN
-- COOKIE_LIFE
 - APP_KEY
-- APP_URL
 - APP_ENV
 
 # Configurations
@@ -28,8 +21,8 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 | config | <code>Object</code> | the cors configuration |
 | [config.whitelist] | <code>Array.&lt;string&gt;</code> | Array of url to whitelist |
 | [config.whitelistRegEx] | <code>Array.&lt;RegExp&gt;</code> | Array of url to whitelist using matching |
-| [config.exposedHeaders] | <code>Array.&lt;string&gt;</code> | Array headers to expose |
 | config.appURL | <code>string</code> | The application url |
+| [config.exposedHeaders] | <code>Array</code> | The application url |
 
 <a name="CorsOptions"></a>
 
@@ -69,7 +62,8 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 | ALPHA_NUMERIC_COMMA_DOT | <code>RegExp</code> | 
 | ALPHA_NUMERIC_PLANE | <code>RegExp</code> | 
 | PASSWORD | <code>RegExp</code> | 
-| URL | <code>RegExp</code> |
+| URL | <code>RegExp</code> | 
+| UUID | <code>RegExp</code> |
 
 # Error Classes
 ## Classes
@@ -80,6 +74,8 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 <dt><a href="#RequestValidationError">RequestValidationError</a></dt>
 <dd></dd>
 <dt><a href="#AuthenticationError">AuthenticationError</a></dt>
+<dd></dd>
+<dt><a href="#AuthorizationError">AuthorizationError</a></dt>
 <dd></dd>
 <dt><a href="#NotFoundError">NotFoundError</a></dt>
 <dd></dd>
@@ -134,6 +130,21 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 | [config.subCode] | <code>number</code> | 
 | [config.reason] | <code>\*</code> | 
 
+<a name="AuthorizationError"></a>
+
+## AuthorizationError
+**Kind**: global class  
+<a name="new_AuthorizationError_new"></a>
+
+### new AuthorizationError(message, [config])
+
+| Param | Type |
+| --- | --- |
+| message | <code>string</code> | 
+| [config] | <code>Object</code> | 
+| [config.subCode] | <code>number</code> | 
+| [config.reason] | <code>\*</code> | 
+
 <a name="NotFoundError"></a>
 
 ## NotFoundError
@@ -168,7 +179,7 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 ## Constants
 
 <dl>
-<dt><a href="#env">env</a> : <code>Object</code></dt>
+<dt><a href="#env">env</a> : <code>Object.&lt;string, *&gt;</code></dt>
 <dd></dd>
 </dl>
 
@@ -179,7 +190,7 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 <dd></dd>
 <dt><a href="#getDistinctFrequency">getDistinctFrequency(array)</a> ⇒ <code>Object</code></dt>
 <dd></dd>
-<dt><a href="#getEnv">getEnv()</a> ⇒ <code>Object</code></dt>
+<dt><a href="#getEnv">getEnv()</a> ⇒ <code>Object.&lt;string, *&gt;</code></dt>
 <dd><p>get all the system environment variables</p>
 </dd>
 <dt><a href="#setEnv">setEnv(newEnv)</a> ⇒ <code>null</code></dt>
@@ -233,7 +244,7 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 
 <a name="env"></a>
 
-## env : <code>Object</code>
+## env : <code>Object.&lt;string, \*&gt;</code>
 **Kind**: global constant  
 <a name="isTypeOf"></a>
 
@@ -258,11 +269,11 @@ Run `npm i @wbc-nodejs/core` to install with npm or `yarn add @wbc-nodejs/core` 
 
 <a name="getEnv"></a>
 
-## getEnv() ⇒ <code>Object</code>
+## getEnv() ⇒ <code>Object.&lt;string, \*&gt;</code>
 get all the system environment variables
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - Environment variables  
+**Returns**: <code>Object.&lt;string, \*&gt;</code> - Environment variables  
 <a name="setEnv"></a>
 
 ## setEnv(newEnv) ⇒ <code>null</code>
@@ -464,61 +475,37 @@ To set token to response
 | [options] | <code>Object</code> |  | Options for the model |
 
 # JWT Helper
-
-## Members
+## Modules
 
 <dl>
-<dt><a href="#jwtHelper">jwtHelper</a> : <code><a href="#JWTHelper">JWTHelper</a></code></dt>
+<dt><a href="#module_jwt">jwt</a></dt>
 <dd></dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#makeToken">makeToken(user, [lifeSpan])</a> ⇒ <code>undefined</code> | <code>string</code></dt>
-<dd><p>To generate a jwt</p>
-</dd>
-<dt><a href="#verifyToken">verifyToken(token, [includeSignature])</a> ⇒ <code>Object</code></dt>
-<dd><p>To verify a given jwt</p>
-</dd>
-<dt><a href="#generateTokens">generateTokens(user)</a> ⇒ <code>Object</code></dt>
-<dd><p>To generate both access and refresh token for a given user</p>
-</dd>
-<dt><a href="#renewAccessToken">renewAccessToken(refreshToken)</a> ⇒ <code>Promise.&lt;Array&gt;</code></dt>
-<dd><p>To get new access token from a refresh token</p>
-</dd>
 </dl>
 
 ## Typedefs
 
 <dl>
-<dt><a href="#JWTHelperGenerateToken">JWTHelperGenerateToken</a> ⇒ <code>Object</code></dt>
-<dd><p>To generate both access and refresh token for a given user</p>
-</dd>
-<dt><a href="#JWTHelperRenewAccessToken">JWTHelperRenewAccessToken</a> ⇒ <code>Promise.&lt;Array&gt;</code></dt>
-<dd><p>To get new access token from a refresh token</p>
-</dd>
-<dt><a href="#JWTHelperVerifyToken">JWTHelperVerifyToken</a> ⇒ <code>Object</code></dt>
-<dd><p>To verify a given jwt</p>
-</dd>
-<dt><a href="#JWTHelperMakeToken">JWTHelperMakeToken</a> ⇒ <code>undefined</code> | <code>string</code></dt>
-<dd><p>To generate a jwt</p>
-</dd>
-<dt><a href="#JWTHelper">JWTHelper</a> : <code>Object</code></dt>
-<dd><p>JWT Helper</p>
+<dt><a href="#RefreshTokenGetUser">RefreshTokenGetUser</a> ⇒ <code>Object</code></dt>
+<dd><p>To get user data to be used to regenerate token</p>
 </dd>
 </dl>
 
-<a name="jwtHelper"></a>
+<a name="module_jwt"></a>
 
-## jwtHelper : [<code>JWTHelper</code>](#JWTHelper)
-**Kind**: global variable  
-<a name="makeToken"></a>
+## jwt
 
-## makeToken(user, [lifeSpan]) ⇒ <code>undefined</code> \| <code>string</code>
+* [jwt](#module_jwt)
+    * [~makeToken(user, [lifeSpan])](#module_jwt..makeToken) ⇒ <code>undefined</code> \| <code>string</code>
+    * [~verifyToken(token, [includeSignature])](#module_jwt..verifyToken) ⇒ <code>Object</code>
+    * [~generateTokens(user)](#module_jwt..generateTokens) ⇒ <code>Object</code>
+    * [~renewAccessToken(refreshToken, getUser)](#module_jwt..renewAccessToken) ⇒ <code>Promise.&lt;Array&gt;</code>
+
+<a name="module_jwt..makeToken"></a>
+
+### jwt~makeToken(user, [lifeSpan]) ⇒ <code>undefined</code> \| <code>string</code>
 To generate a jwt
 
-**Kind**: global function  
+**Kind**: inner method of [<code>jwt</code>](#module_jwt)  
 **Returns**: <code>undefined</code> \| <code>string</code> - The generated token string  
 
 | Param | Type | Description |
@@ -526,12 +513,12 @@ To generate a jwt
 | user | <code>Object</code> | The user to create a token for |
 | [lifeSpan] | <code>string</code> | The lifespan of the token to be created |
 
-<a name="verifyToken"></a>
+<a name="module_jwt..verifyToken"></a>
 
-## verifyToken(token, [includeSignature]) ⇒ <code>Object</code>
+### jwt~verifyToken(token, [includeSignature]) ⇒ <code>Object</code>
 To verify a given jwt
 
-**Kind**: global function  
+**Kind**: inner method of [<code>jwt</code>](#module_jwt)  
 **Returns**: <code>Object</code> - the user object  
 
 | Param | Type | Default | Description |
@@ -539,94 +526,42 @@ To verify a given jwt
 | token | <code>String</code> |  | the access token string |
 | [includeSignature] | <code>Boolean</code> | <code>true</code> | Whether or not to include signature |
 
-<a name="generateTokens"></a>
+<a name="module_jwt..generateTokens"></a>
 
-## generateTokens(user) ⇒ <code>Object</code>
+### jwt~generateTokens(user) ⇒ <code>Object</code>
 To generate both access and refresh token for a given user
 
-**Kind**: global function  
+**Kind**: inner method of [<code>jwt</code>](#module_jwt)  
 **Returns**: <code>Object</code> - The generated token object containing access token and refresh token  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | user | <code>Object</code> | The user to generate tokens for |
 
-<a name="renewAccessToken"></a>
+<a name="module_jwt..renewAccessToken"></a>
 
-## renewAccessToken(refreshToken) ⇒ <code>Promise.&lt;Array&gt;</code>
+### jwt~renewAccessToken(refreshToken, getUser) ⇒ <code>Promise.&lt;Array&gt;</code>
 To get new access token from a refresh token
 
-**Kind**: global function  
+**Kind**: inner method of [<code>jwt</code>](#module_jwt)  
 **Returns**: <code>Promise.&lt;Array&gt;</code> - The new access token and the user data  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | refreshToken | <code>string</code> | the refresh token |
+| getUser | [<code>RefreshTokenGetUser</code>](#RefreshTokenGetUser) \| <code>function</code> | Function to get user |
 
-<a name="JWTHelperGenerateToken"></a>
+<a name="RefreshTokenGetUser"></a>
 
-## JWTHelperGenerateToken ⇒ <code>Object</code>
-To generate both access and refresh token for a given user
-
-**Kind**: global typedef  
-**Returns**: <code>Object</code> - The generated token object containing access token and refresh token  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| user | <code>Object</code> | The user to generate tokens for |
-
-<a name="JWTHelperRenewAccessToken"></a>
-
-## JWTHelperRenewAccessToken ⇒ <code>Promise.&lt;Array&gt;</code>
-To get new access token from a refresh token
+## RefreshTokenGetUser ⇒ <code>Object</code>
+To get user data to be used to regenerate token
 
 **Kind**: global typedef  
-**Returns**: <code>Promise.&lt;Array&gt;</code> - The new access token and the user data  
+**Returns**: <code>Object</code> - the user  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| refreshToken | <code>string</code> | the refresh token |
-
-<a name="JWTHelperVerifyToken"></a>
-
-## JWTHelperVerifyToken ⇒ <code>Object</code>
-To verify a given jwt
-
-**Kind**: global typedef  
-**Returns**: <code>Object</code> - the user object  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| token | <code>String</code> |  | the access token string |
-| [includeSignature] | <code>Boolean</code> | <code>true</code> | Whether or not to include signature |
-
-<a name="JWTHelperMakeToken"></a>
-
-## JWTHelperMakeToken ⇒ <code>undefined</code> \| <code>string</code>
-To generate a jwt
-
-**Kind**: global typedef  
-**Returns**: <code>undefined</code> \| <code>string</code> - The generated token string  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| user | <code>Object</code> | The user to create a token for |
-| [lifeSpan] | <code>string</code> | The lifespan of the token to be created |
-
-<a name="JWTHelper"></a>
-
-## JWTHelper : <code>Object</code>
-JWT Helper
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type |
+| Param | Type |
 | --- | --- |
-| generateTokens | [<code>JWTHelperGenerateToken</code>](#JWTHelperGenerateToken) | 
-| renewAccessToken | [<code>JWTHelperRenewAccessToken</code>](#JWTHelperRenewAccessToken) | 
-| verifyToken | [<code>JWTHelperVerifyToken</code>](#JWTHelperVerifyToken) | 
-| makeToken | [<code>JWTHelperMakeToken</code>](#JWTHelperMakeToken) |
+| id | <code>string</code> |
 
 # App Logger
 ## logger
@@ -642,25 +577,21 @@ Application logger
 | info | <code>function</code> |
 
 # Response Helper
-## Functions
+<a name="module_response"></a>
 
-<dl>
-<dt><a href="#renderResponse">renderResponse(req, res, template, [data], [statusCode])</a> ⇒ <code>HTMLDocument</code></dt>
-<dd></dd>
-<dt><a href="#successResponse">successResponse(res, statusCode, [data], [message])</a> ⇒ <code>JSON</code></dt>
-<dd></dd>
-<dt><a href="#okResponse">okResponse(res, [data], [message])</a> ⇒ <code>JSON</code></dt>
-<dd></dd>
-<dt><a href="#createdResponse">createdResponse(res, data, [message])</a> ⇒ <code>JSON</code></dt>
-<dd></dd>
-<dt><a href="#redirectResponse">redirectResponse(res, url, [code])</a> ⇒ <code>Null</code></dt>
-<dd></dd>
-</dl>
+## response
 
-<a name="renderResponse"></a>
+* [response](#module_response)
+    * [~render(req, res, template, [data], [statusCode])](#module_response..render) ⇒ <code>HTMLDocument</code>
+    * [~success(res, statusCode, [data], [message])](#module_response..success) ⇒ <code>JSON</code>
+    * [~ok(res, [data], [message])](#module_response..ok) ⇒ <code>JSON</code>
+    * [~created(res, data, [message])](#module_response..created) ⇒ <code>JSON</code>
+    * [~redirect(res, url, [code])](#module_response..redirect) ⇒ <code>Null</code>
 
-## renderResponse(req, res, template, [data], [statusCode]) ⇒ <code>HTMLDocument</code>
-**Kind**: global function  
+<a name="module_response..render"></a>
+
+### response~render(req, res, template, [data], [statusCode]) ⇒ <code>HTMLDocument</code>
+**Kind**: inner method of [<code>response</code>](#module_response)  
 **Returns**: <code>HTMLDocument</code> - Full html content  
 
 | Param | Type | Default | Description |
@@ -671,10 +602,10 @@ Application logger
 | [data] | <code>Object</code> |  | Data to be return as part of response body |
 | [statusCode] | <code>Number</code> | <code>200</code> | Http status code for the response |
 
-<a name="successResponse"></a>
+<a name="module_response..success"></a>
 
-## successResponse(res, statusCode, [data], [message]) ⇒ <code>JSON</code>
-**Kind**: global function  
+### response~success(res, statusCode, [data], [message]) ⇒ <code>JSON</code>
+**Kind**: inner method of [<code>response</code>](#module_response)  
 **Returns**: <code>JSON</code> - Formatted JSON server response  
 
 | Param | Type | Description |
@@ -684,10 +615,10 @@ Application logger
 | [data] | <code>object</code> | Data to be return as part of response body |
 | [message] | <code>String</code> | Message accompanying the response data |
 
-<a name="okResponse"></a>
+<a name="module_response..ok"></a>
 
-## okResponse(res, [data], [message]) ⇒ <code>JSON</code>
-**Kind**: global function  
+### response~ok(res, [data], [message]) ⇒ <code>JSON</code>
+**Kind**: inner method of [<code>response</code>](#module_response)  
 **Returns**: <code>JSON</code> - Formatted JSON server response  
 
 | Param | Type | Description |
@@ -696,10 +627,10 @@ Application logger
 | [data] | <code>object</code> | Data to be return as part of response body |
 | [message] | <code>String</code> | Message accompanying the response data |
 
-<a name="createdResponse"></a>
+<a name="module_response..created"></a>
 
-## createdResponse(res, data, [message]) ⇒ <code>JSON</code>
-**Kind**: global function  
+### response~created(res, data, [message]) ⇒ <code>JSON</code>
+**Kind**: inner method of [<code>response</code>](#module_response)  
 **Returns**: <code>JSON</code> - Formatted JSON server response  
 
 | Param | Type | Description |
@@ -708,10 +639,10 @@ Application logger
 | data | <code>object</code> | Data to be return as part of response body |
 | [message] | <code>String</code> | Message accompanying the response data |
 
-<a name="redirectResponse"></a>
+<a name="module_response..redirect"></a>
 
-## redirectResponse(res, url, [code]) ⇒ <code>Null</code>
-**Kind**: global function  
+### response~redirect(res, url, [code]) ⇒ <code>Null</code>
+**Kind**: inner method of [<code>response</code>](#module_response)  
 **Returns**: <code>Null</code> - Null  
 
 | Param | Type | Description |
@@ -721,12 +652,11 @@ Application logger
 | [code] | <code>Number</code> | 301 or 302 based on permanent or temporary |
 
 # Uploader
-## Constants
+## Modules
 
 <dl>
-<dt><a href="#uploader">uploader</a></dt>
-<dd><p>Uploader</p>
-</dd>
+<dt><a href="#module_uploader">uploader</a></dt>
+<dd></dd>
 </dl>
 
 ## Functions
@@ -735,42 +665,75 @@ Application logger
 <dt><a href="#toDataUri">toDataUri(config)</a> ⇒ <code>*</code></dt>
 <dd><p>This function converts the buffer to data url</p>
 </dd>
-<dt><a href="#getBaseFolder">getBaseFolder()</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#constructFolder">constructFolder(folder)</a> ⇒ <code>string</code></dt>
-<dd></dd>
 </dl>
 
-## Typedefs
-
-<dl>
-<dt><a href="#UploaderInitialize">UploaderInitialize</a> ⇒ <code>null</code></dt>
-<dd></dd>
-<dt><a href="#UploadImageFromDataURI">UploadImageFromDataURI</a> ⇒ <code>Promise.&lt;*&gt;</code></dt>
-<dd></dd>
-<dt><a href="#UploadImageFromFile">UploadImageFromFile</a> ⇒ <code>Promise.&lt;*&gt;</code></dt>
-<dd></dd>
-<dt><a href="#UploaderRemoveImage">UploaderRemoveImage</a> ⇒ <code>*</code></dt>
-<dd></dd>
-<dt><a href="#UploaderGetFilesInFolder">UploaderGetFilesInFolder</a> ⇒ <code>Promise.&lt;any&gt;</code></dt>
-<dd></dd>
-</dl>
-
-<a name="uploader"></a>
+<a name="module_uploader"></a>
 
 ## uploader
-Uploader
 
-**Kind**: global constant  
-**Properties**
+* [uploader](#module_uploader)
+    * [~initialize(req, res, next)](#module_uploader..initialize) ⇒ <code>null</code>
+    * [~uploadImageFromDataURI(dataURI, fileName, [folder])](#module_uploader..uploadImageFromDataURI) ⇒ <code>Promise.&lt;\*&gt;</code>
+    * [~uploadImageFromFile(file, fileName, [folder])](#module_uploader..uploadImageFromFile) ⇒ <code>Promise.&lt;\*&gt;</code>
+    * [~removeImage(link)](#module_uploader..removeImage) ⇒ <code>\*</code>
+    * [~getFilesInFolder(folder)](#module_uploader..getFilesInFolder) ⇒ <code>Promise.&lt;any&gt;</code>
 
-| Name | Type |
-| --- | --- |
-| initialize | [<code>UploaderInitialize</code>](#UploaderInitialize) | 
-| uploadImageFromDataURI | [<code>UploadImageFromDataURI</code>](#UploadImageFromDataURI) | 
-| uploadImageFromFile | [<code>UploadImageFromDataURI</code>](#UploadImageFromDataURI) | 
-| removeImage | [<code>UploaderRemoveImage</code>](#UploaderRemoveImage) | 
-| getFilesInFolder | [<code>UploaderGetFilesInFolder</code>](#UploaderGetFilesInFolder) | 
+<a name="module_uploader..initialize"></a>
+
+### uploader~initialize(req, res, next) ⇒ <code>null</code>
+**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
+**Returns**: <code>null</code> - Null  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| req | <code>Object</code> | Express request object |
+| req.cloudConfig | <code>Object</code> | Cloud configuration which must be appended to request object |
+| res | <code>Object</code> | Express response object |
+| next | <code>function</code> | Express next function |
+
+<a name="module_uploader..uploadImageFromDataURI"></a>
+
+### uploader~uploadImageFromDataURI(dataURI, fileName, [folder]) ⇒ <code>Promise.&lt;\*&gt;</code>
+**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
+**Returns**: <code>Promise.&lt;\*&gt;</code> - Uploader  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dataURI | <code>string</code> | a base64 representation of the file |
+| fileName | <code>string</code> | Name of the file to upload |
+| [folder] | <code>string</code> | the folder to upload the file excluding the main folder |
+
+<a name="module_uploader..uploadImageFromFile"></a>
+
+### uploader~uploadImageFromFile(file, fileName, [folder]) ⇒ <code>Promise.&lt;\*&gt;</code>
+**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
+**Returns**: <code>Promise.&lt;\*&gt;</code> - Uploader  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| file | <code>\*</code> | file |
+| fileName | <code>string</code> | Name of the file to upload |
+| [folder] | <code>string</code> | the folder to upload the file excluding the main folder |
+
+<a name="module_uploader..removeImage"></a>
+
+### uploader~removeImage(link) ⇒ <code>\*</code>
+**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
+**Returns**: <code>\*</code> - Null  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| link | <code>string</code> | The cloudinary link to the image |
+
+<a name="module_uploader..getFilesInFolder"></a>
+
+### uploader~getFilesInFolder(folder) ⇒ <code>Promise.&lt;any&gt;</code>
+**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
+**Returns**: <code>Promise.&lt;any&gt;</code> - Resources  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| folder | <code>string</code> | the folder to load the files from |
 
 <a name="toDataUri"></a>
 
@@ -784,87 +747,11 @@ This function converts the buffer to data url
 | --- | --- | --- |
 | config | <code>Object</code> \| <code>File</code> | Express request object |
 
-<a name="getBaseFolder"></a>
-
-## getBaseFolder() ⇒ <code>string</code>
-**Kind**: global function  
-**Returns**: <code>string</code> - base folder  
-<a name="constructFolder"></a>
-
-## constructFolder(folder) ⇒ <code>string</code>
-**Kind**: global function  
-**Returns**: <code>string</code> - refined folder  
-
-| Param | Type |
-| --- | --- |
-| folder | <code>string</code> | 
-
-<a name="UploaderInitialize"></a>
-
-## UploaderInitialize ⇒ <code>null</code>
-**Kind**: global typedef  
-**Returns**: <code>null</code> - Null  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| req | <code>Object</code> | Express request object |
-| req.cloudConfig | <code>Object</code> | Cloud configuration which must be appended to request object |
-| res | <code>Object</code> | Express response object |
-| next | <code>function</code> | Express next function |
-
-<a name="UploadImageFromDataURI"></a>
-
-## UploadImageFromDataURI ⇒ <code>Promise.&lt;\*&gt;</code>
-**Kind**: global typedef  
-**Returns**: <code>Promise.&lt;\*&gt;</code> - Uploader  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataURI | <code>string</code> | a base64 representation of the file |
-| fileName | <code>string</code> | Name of the file to upload |
-| [folder] | <code>string</code> | the folder to upload the file excluding the main folder |
-
-<a name="UploadImageFromFile"></a>
-
-## UploadImageFromFile ⇒ <code>Promise.&lt;\*&gt;</code>
-**Kind**: global typedef  
-**Returns**: <code>Promise.&lt;\*&gt;</code> - Uploader  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataURI | <code>string</code> | a base64 representation of the file |
-| fileName | <code>string</code> | Name of the file to upload |
-| [folder] | <code>string</code> | the folder to upload the file excluding the main folder |
-
-<a name="UploaderRemoveImage"></a>
-
-## UploaderRemoveImage ⇒ <code>\*</code>
-**Kind**: global typedef  
-**Returns**: <code>\*</code> - Null  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| link | <code>string</code> | The cloudinary link to the image |
-
-<a name="UploaderGetFilesInFolder"></a>
-
-## UploaderGetFilesInFolder ⇒ <code>Promise.&lt;any&gt;</code>
-**Kind**: global typedef  
-**Returns**: <code>Promise.&lt;any&gt;</code> - Resources  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| folder | <code>string</code> | the folder to load the files from |
-
 # Validators
-## Constants
+## Objects
 
 <dl>
-<dt><a href="#bodyValidator">bodyValidator</a></dt>
-<dd></dd>
-<dt><a href="#paramValidator">paramValidator</a></dt>
-<dd></dd>
-<dt><a href="#queryValidator">queryValidator</a></dt>
+<dt><a href="#validator">validator</a> : <code>object</code></dt>
 <dd></dd>
 </dl>
 
@@ -879,44 +766,32 @@ This function converts the buffer to data url
 <dd></dd>
 <dt><a href="#CustomRequiredValidator">CustomRequiredValidator</a> ⇒ <code>Array</code></dt>
 <dd></dd>
+<dt><a href="#ValidatorInstance">ValidatorInstance</a> : <code>Object</code></dt>
+<dd></dd>
 </dl>
 
-<a name="bodyValidator"></a>
+<a name="validator"></a>
 
-## bodyValidator
-**Kind**: global constant  
-**Properties**
+## validator : <code>object</code>
+**Kind**: global namespace  
 
-| Name | Type |
-| --- | --- |
-| email | [<code>CustomValidator</code>](#CustomValidator) | 
-| password | [<code>CustomValidator</code>](#CustomValidator) | 
-| confirm | [<code>CustomConfirmValidator</code>](#CustomConfirmValidator) | 
-| matchPattern | [<code>CustomMatchPatterValidator</code>](#CustomMatchPatterValidator) | 
-| required | [<code>CustomRequiredValidator</code>](#CustomRequiredValidator) | 
+* [validator](#validator) : <code>object</code>
+    * [.body](#validator.body) : [<code>ValidatorInstance</code>](#ValidatorInstance)
+    * [.param](#validator.param) : [<code>ValidatorInstance</code>](#ValidatorInstance)
+    * [.query](#validator.query) : [<code>ValidatorInstance</code>](#ValidatorInstance)
 
-<a name="paramValidator"></a>
+<a name="validator.body"></a>
 
-## paramValidator
-**Kind**: global constant  
-**Properties**
+### validator.body : [<code>ValidatorInstance</code>](#ValidatorInstance)
+**Kind**: static constant of [<code>validator</code>](#validator)  
+<a name="validator.param"></a>
 
-| Name | Type |
-| --- | --- |
-| matchPattern | [<code>CustomMatchPatterValidator</code>](#CustomMatchPatterValidator) | 
-| required | [<code>CustomRequiredValidator</code>](#CustomRequiredValidator) | 
+### validator.param : [<code>ValidatorInstance</code>](#ValidatorInstance)
+**Kind**: static constant of [<code>validator</code>](#validator)  
+<a name="validator.query"></a>
 
-<a name="queryValidator"></a>
-
-## queryValidator
-**Kind**: global constant  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| matchPattern | [<code>CustomMatchPatterValidator</code>](#CustomMatchPatterValidator) | 
-| required | [<code>CustomRequiredValidator</code>](#CustomRequiredValidator) | 
-
+### validator.query : [<code>ValidatorInstance</code>](#ValidatorInstance)
+**Kind**: static constant of [<code>validator</code>](#validator)  
 <a name="CustomValidator"></a>
 
 ## CustomValidator ⇒ <code>\*</code>
@@ -962,18 +837,31 @@ This function converts the buffer to data url
 | --- | --- | --- |
 | ...fieldNames | <code>string</code> | Name of the required field(s) |
 
-# Middlewares
+<a name="ValidatorInstance"></a>
 
+## ValidatorInstance : <code>Object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| email | [<code>CustomValidator</code>](#CustomValidator) | 
+| password | [<code>CustomValidator</code>](#CustomValidator) | 
+| confirm | [<code>CustomConfirmValidator</code>](#CustomConfirmValidator) | 
+| matchPattern | [<code>CustomMatchPatterValidator</code>](#CustomMatchPatterValidator) | 
+| required | [<code>CustomRequiredValidator</code>](#CustomRequiredValidator) |
+
+# Middlewares
 <a name="decodeCurrentUser"></a>
 
-## decodeCurrentUser([accessTokenKey]) ⇒ <code>function</code>
+## decodeCurrentUser([accessTokenKey], [refreshTokenKey]) ⇒ <code>function</code>
 **Kind**: global function  
 **Returns**: <code>function</code> - Express middleware function  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [accessTokenKey] | <code>string</code> | <code>&quot;accessTokenKey&quot;</code> | 
-| [refreshTokenKey] | <code>string</code> | <code>&quot;refreshTokenKey&quot;</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [accessTokenKey] | <code>string</code> | <code>&quot;accessToken&quot;</code> | The accessToken key |
+| [refreshTokenKey] | <code>string</code> | <code>&quot;refreshToken&quot;</code> | The accessToken key |
 
 <a name="errorHandler"></a>
 
@@ -991,9 +879,9 @@ This function converts the buffer to data url
 **Kind**: global function  
 **Returns**: <code>function</code> - Express middleware function  
 
-| Param | Type |
-| --- | --- |
-| [message] | <code>string</code> |
+| Param | Type | Description |
+| --- | --- | --- |
+| [message] | <code>string</code> | The message to display to user |
 
 <a name="multerUploads"></a>
 
@@ -1007,7 +895,7 @@ This function converts the buffer to data url
 | any | <code>function</code> | 
 | array | <code>function</code> | 
 | fields | <code>function</code> | 
-| none | <code>function</code> | 
+| none | <code>function</code> |
 
 <a name="preloadSwagger"></a>
 
@@ -1028,19 +916,10 @@ This function converts the buffer to data url
 | Param | Type | Description |
 | --- | --- | --- |
 | [config] | <code>Object</code> | Configuration object |
+| [config.accessTokenKey] | <code>string</code> | key to find accessToken |
+| [config.refreshTokenKey] | <code>string</code> | key to find refreshToken |
 | [config.forceRefreshEvenIfNotExpire] | <code>boolean</code> | Whether or not to refresh even if the token has not yet expired |
-| [config.accessTokenKey] | <code>boolean</code> | key to find accessToken |
-| [config.refreshTokenKey] | <code>boolean</code> | key to find refreshToken |
-
-<a name="validationResult"></a>
-
-## validationResult(message) ⇒ <code>function</code>
-**Kind**: global function  
-**Returns**: <code>function</code> - Middleware to update documentation properties  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [message] | <code>string</code> | General error message to return |
+| config.getUser | <code>RefreshTokenGetUser</code> | Function to get user data |
 
 <a name="requirePrivilege"></a>
 
@@ -1050,8 +929,18 @@ This function converts the buffer to data url
 
 | Param | Type | Description |
 | --- | --- | --- |
-| requirements | <code>Object</code> |  |
+| requirements | <code>Object</code> | The requirements |
 | [requirements.has] | <code>string</code> | Checks for this privilege |
 | [requirements.hasAll] | <code>Array.&lt;string&gt;</code> | Checks for all privilege in this array |
 | [requirements.hasAny] | <code>Array.&lt;string&gt;</code> | Checks for any privilege in this array |
 | [errorMessage] | <code>string</code> | Error message to show user in case requirement not met |
+
+<a name="validationResult"></a>
+
+## validationResult([message]) ⇒ <code>function</code>
+**Kind**: global function  
+**Returns**: <code>function</code> - Middleware to update documentation properties  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [message] | <code>string</code> | General error message to return |

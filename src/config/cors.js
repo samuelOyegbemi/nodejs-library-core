@@ -14,7 +14,7 @@
  * @param {Array} [config.exposedHeaders] - The application url
  * @returns {CorsOptions} Cors Option
  */
-const corsOptions = config => {
+export const corsOptions = config => {
   const { whitelist, appURL, whitelistRegEx, exposedHeaders = ['Content-Length'] } = config;
   return {
     credentials: true,
@@ -39,6 +39,3 @@ const corsOptions = config => {
     exposedHeaders: [...exposedHeaders, 'Authorization', 'X-REFRESH-TOKEN'],
   };
 };
-
-// eslint-disable-next-line import/prefer-default-export
-export { corsOptions };

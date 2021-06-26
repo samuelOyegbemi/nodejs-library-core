@@ -1,4 +1,4 @@
-import { jwtHelper } from '../helpers/jwt';
+import jwtHelper from '../helpers/jwt';
 import { getTokensFromRequest, setTokensToResponse, getCookieDomain } from '../helpers';
 
 /**
