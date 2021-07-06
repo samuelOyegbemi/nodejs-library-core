@@ -64,11 +64,11 @@ const setEnv = newEnv => {
 };
 
 /**
- * @typedef {function} PaginationFunction
+ * @callback PaginationFunction
  * @param {string | number} [page=1] - page to query
  * @param {string | number} [limit=10] - limit for the query
  * @param {Object} [options] - Options for the model
- * @returns {{item_count: number, next_page: null, total: *, number_of_pages: number, limit: number, page: number, previous_page: (number|null), results: number | SQLResultSetRowList | HTMLCollectionOf<HTMLTableRowElement> | string}} Paginated data
+ * @returns {{item_count: number, next_page: (number|null), total: *, number_of_pages: number, limit: number, page: number, previous_page: (number|null), results: number | SQLResultSetRowList | HTMLCollectionOf<HTMLTableRowElement> | string}} Paginated data
  */
 
 /**

@@ -2,14 +2,14 @@ import { body as bodyVal, param as paramVal, query as queryVal } from 'express-v
 import { regExp } from '../config/regExp';
 
 /**
- * @typedef {function} CustomValidator
+ * @callback CustomValidator
  * @param {string} [fieldName] - The field to validate
  * @param {string} [message] - Error message
  * @return {*} Validation chain
  */
 
 /**
- * @typedef {function} CustomConfirmValidator
+ * @callback CustomConfirmValidator
  * @param {string} [fieldName] - The field to validate
  * @param {string} [benchmark] - What to benchmark against
  * @param {string} [message] - Error message
@@ -17,7 +17,7 @@ import { regExp } from '../config/regExp';
  */
 
 /**
- * @typedef {function} CustomMatchPatterValidator
+ * @callback CustomMatchPatterValidator
  * @param {string} fieldName - The field to validate
  * @param {RegExp} pattern - pattern to test for
  * @param {string} [message] - Error message
@@ -25,7 +25,7 @@ import { regExp } from '../config/regExp';
  */
 
 /**
- * @typedef {function} CustomRequiredValidator
+ * @callback CustomRequiredValidator
  * @param {...string} fieldNames - Name of the required field(s)
  * @return {Array} Validation chain
  */
