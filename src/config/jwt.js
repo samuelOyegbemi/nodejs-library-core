@@ -1,4 +1,4 @@
-import { getEnv } from '../helpers';
+import { getEnv } from '../helpers/utility';
 
 const env = getEnv();
 

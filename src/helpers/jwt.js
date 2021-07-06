@@ -1,7 +1,7 @@
 import jsonWebToken from 'jsonwebtoken';
 import { jwtConfig } from '../config/jwt';
 import { AuthenticationError, CustomError } from './errors';
-import { isTypeOf } from './index';
+import { isTypeOf } from './utility';
 
 /**
  * @callback RefreshTokenGetUser

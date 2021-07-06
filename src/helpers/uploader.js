@@ -1,10 +1,11 @@
 import path from 'path';
 import cloud from 'cloudinary';
-import DataURI from 'datauri';
+import dURI from 'datauri';
 
-import { getEnv, removeFileExtension, setEnv } from '.';
+import { getEnv, removeFileExtension, setEnv } from './utility';
 
-const dUri = new DataURI();
+export const DataURI = dURI;
+const dUri = new dURI();
 
 /**
  * @method toDataUri
@@ -113,4 +114,4 @@ uploader.getFilesInFolder = folder => {
   });
 };
 
-export { DataURI, toDataUri, uploader };
+export { toDataUri, uploader };

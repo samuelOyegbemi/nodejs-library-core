@@ -1,5 +1,5 @@
 import { jwt } from '../helpers/jwt';
-import { getTokensFromRequest } from '../helpers';
+import { getTokensFromRequest } from '../helpers/utility';
 
 /**
  * @method decodeCurrentUser

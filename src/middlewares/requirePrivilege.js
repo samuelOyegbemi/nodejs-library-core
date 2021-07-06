@@ -1,4 +1,4 @@
-import { getDistinctFrequency, isTypeOf } from '../helpers';
+import { getDistinctFrequency, isTypeOf } from '../helpers/utility';
 import { AuthorizationError } from '../helpers/errors';
 
 // eslint-disable-next-line require-jsdoc

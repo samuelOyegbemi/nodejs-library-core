@@ -1,5 +1,5 @@
 import { jwt } from '../helpers/jwt';
-import { getTokensFromRequest, setTokensToResponse, getCookieDomain } from '../helpers';
+import { getTokensFromRequest, setTokensToResponse, getCookieDomain } from '../helpers/utility';
 
 /**
  * @method refreshAccessToken

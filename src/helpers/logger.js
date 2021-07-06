@@ -1,5 +1,5 @@
 import { createLogger, transports, format } from 'winston';
-import { getEnv } from './index';
+import { getEnv } from './utility';
 
 /**
  * Application logger
