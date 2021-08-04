@@ -1,6 +1,6 @@
-# WBC Nodejs Core Library
+# Reusable Nodejs Library
 
-This is a repository for Webcoupers Nodejs core library
+This is a repository for Reusable Nodejs library, covering authentication, response model, Error handling, validation e.t.c
 
 ## Installation
 
