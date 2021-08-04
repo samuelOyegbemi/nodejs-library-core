@@ -1,5 +1,5 @@
-import { jwtHelper } from '../helpers/jwt';
-import { getTokensFromRequest } from '../helpers';
+import { jwt } from '../helpers/jwt';
+import { getTokensFromRequest } from '../helpers/utility';
 
 /**
  * @method decodeCurrentUser
@@ -10,7 +10,7 @@ import { getTokensFromRequest } from '../helpers';
 const decodeCurrentUser = (accessTokenKey = '', refreshTokenKey = '') => async (req, res, next) => {
   const { accessToken } = getTokensFromRequest(req, { accessTokenKey, refreshTokenKey });
   try {
-    req.user = await jwtHelper.verifyToken(accessToken, false);
+    req.user = await jwt.verifyToken(accessToken, false);
   } catch (e) {
     req.errorDetail = e;
   }

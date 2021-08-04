@@ -1,5 +1,5 @@
-import { jwtHelper } from '../helpers/jwt';
-import { getTokensFromRequest, setTokensToResponse, getCookieDomain } from '../helpers';
+import { jwt } from '../helpers/jwt';
+import { getTokensFromRequest, setTokensToResponse, getCookieDomain } from '../helpers/utility';
 
 /**
  * @method refreshAccessToken
@@ -18,7 +18,7 @@ const refreshAccessToken = config => async (req, res, next) => {
   });
   if (forceRefreshEvenIfNotExpire || (req.errorDetail && req.errorDetail.subCode === 1)) {
     try {
-      const [newToken, user] = await jwtHelper.renewAccessToken(refreshToken, getUser);
+      const [newToken, user] = await jwt.renewAccessToken(refreshToken, getUser);
       setTokensToResponse(res, { access: newToken }, { cookieDomain: getCookieDomain(req) });
       req.newAccessToken = newToken;
       req.refreshToken = refreshToken;

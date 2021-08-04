@@ -6,7 +6,7 @@ let { env = {} } = process || {};
 
 /**
  * @const env
- * @type {Object}
+ * @type {Object.<string, *>}
  */
 env = {
   ...env,
@@ -45,7 +45,7 @@ const getDistinctFrequency = array => {
 /**
  * @method getEnv
  * @description get all the system environment variables
- * @returns {Object} Environment variables
+ * @returns {Object.<string, *>} Environment variables
  */
 const getEnv = () => {
   return env;
@@ -68,7 +68,7 @@ const setEnv = newEnv => {
  * @param {string | number} [page=1] - page to query
  * @param {string | number} [limit=10] - limit for the query
  * @param {Object} [options] - Options for the model
- * @returns {{item_count: number, next_page: null, total: *, number_of_pages: number, limit: number, page: number, previous_page: (number|null), results: number | SQLResultSetRowList | HTMLCollectionOf<HTMLTableRowElement> | string}} Paginated data
+ * @returns {{item_count: number, next_page: (number|null), total: *, number_of_pages: number, limit: number, page: number, previous_page: (number|null), results: number | SQLResultSetRowList | HTMLCollectionOf<HTMLTableRowElement> | string}} Paginated data
  */
 
 /**
@@ -343,6 +343,17 @@ const convertToSlug = text => {
     .replace(/ +/g, '-');
 };
 
+/**
+ * @method increaseDateBySeconds
+ * @param {number} [seconds=0]
+ * @param {Date} [dt=now] - DateTime
+ * @return {Date} The new date
+ */
+const increaseDateBySeconds = (seconds = 0, dt = new Date()) => {
+  dt.setSeconds(dt.getSeconds() + seconds);
+  return dt;
+};
+
 export {
   getEnv,
   setEnv,
@@ -362,4 +373,5 @@ export {
   base64Encode,
   base64Decode,
   convertToSlug,
+  increaseDateBySeconds,
 };

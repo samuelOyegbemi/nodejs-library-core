@@ -1,5 +1,7 @@
+import util from 'util';
+
 /**
- * @name CustomError
+ * @class BaseError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.httpStatusCode]
@@ -8,25 +10,31 @@
  * @param {*} [config.reason]
  * @constructor
  */
-function CustomError(message, config) {
+function BaseError(message, config) {
   config = config || {};
+  if (config.stackTrace) {
+    this.stack = config.stackTrace;
+  }
   this.message = message || 'Oops something went wrong';
-  this.stack = config.stackTrace || Error().stack;
   this.code = config.httpStatusCode || 500;
   this.subCode = config.subCode || 0;
   this.errorReason = config.reason;
 }
-
-CustomError.prototype = Object.create(Error.prototype);
-CustomError.prototype.name = 'CustomError';
-CustomError.prototype.serializeError = function serializeError(includeStackTrace = false) {
+util.inherits(BaseError, Error);
+BaseError.prototype.name = 'BaseError';
+BaseError.prototype.getErrorData = function getErrorData() {
+  return {
+    reason: this.errorReason,
+    message: this.message,
+    name: this.name,
+  };
+};
+BaseError.prototype.serializeError = function serializeError(includeStackTrace = false) {
   const serialized = {
     status: 'FAIL',
     statusCode: this.code,
     subCode: this.subCode,
-    data: {
-      reason: this.errorReason,
-    },
+    data: this.getErrorData(),
     message: this.message,
   };
   if (includeStackTrace) {
@@ -36,23 +44,43 @@ CustomError.prototype.serializeError = function serializeError(includeStackTrace
 };
 
 /**
- * @name RequestValidationError
+ * @class CustomError
+ * @param {string} message
+ * @param {Object} [config]
+ * @param {number} [config.httpStatusCode]
+ * @param {number} [config.subCode]
+ * @param {*} [config.reason]
+ * @constructor
+ */
+function CustomError(message, config) {
+  BaseError.apply(this, [message, config]);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, CustomError);
+  }
+}
+util.inherits(CustomError, BaseError);
+CustomError.prototype.name = 'CustomError';
+
+/**
+ * @class BadRequestError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
  * @param {*} [config.reason]
  * @constructor
  */
-function RequestValidationError(message, config) {
-  message = message || 'Invalid data';
-  CustomError.apply(this, [message, config]);
-  this.code = 400;
+function BadRequestError(message, config) {
+  message = message || 'Bad Request';
+  BaseError.apply(this, [message, { ...config, httpStatusCode: 400 }]);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, BadRequestError);
+  }
 }
-RequestValidationError.prototype = Object.create(CustomError.prototype);
-RequestValidationError.prototype.name = 'RequestValidationError';
+util.inherits(BadRequestError, BaseError);
+BadRequestError.prototype.name = 'BadRequestError';
 
 /**
- * @name AuthenticationError
+ * @class AuthenticationError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -61,14 +89,16 @@ RequestValidationError.prototype.name = 'RequestValidationError';
  */
 function AuthenticationError(message, config) {
   message = message || 'Authentication required';
-  CustomError.apply(this, [message, config]);
-  this.code = 401;
+  BaseError.apply(this, [message, { ...config, httpStatusCode: 401 }]);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, AuthenticationError);
+  }
 }
-AuthenticationError.prototype = Object.create(CustomError.prototype);
+util.inherits(AuthenticationError, BaseError);
 AuthenticationError.prototype.name = 'AuthenticationError';
 
 /**
- * @name AuthorizationError
+ * @class AuthorizationError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -77,14 +107,16 @@ AuthenticationError.prototype.name = 'AuthenticationError';
  */
 function AuthorizationError(message, config) {
   message = message || 'You do not have enough permission to this resource';
-  CustomError.apply(this, [message, config]);
-  this.code = 403;
+  BaseError.apply(this, [message, { ...config, httpStatusCode: 403 }]);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, AuthorizationError);
+  }
 }
-AuthorizationError.prototype = Object.create(CustomError.prototype);
+util.inherits(AuthorizationError, BaseError);
 AuthorizationError.prototype.name = 'AuthorizationError';
 
 /**
- * @name NotFoundError
+ * @class NotFoundError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -93,14 +125,16 @@ AuthorizationError.prototype.name = 'AuthorizationError';
  */
 function NotFoundError(message, config) {
   message = message || 'Resource not found';
-  CustomError.apply(this, [message, config]);
-  this.code = 404;
+  BaseError.apply(this, [message, { ...config, httpStatusCode: 404 }]);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, NotFoundError);
+  }
 }
-NotFoundError.prototype = Object.create(CustomError.prototype);
+util.inherits(NotFoundError, BaseError);
 NotFoundError.prototype.name = 'NotFoundError';
 
 /**
- * @name ConflictError
+ * @class ConflictError
  * @param {string} message
  * @param {Object} [config]
  * @param {number} [config.subCode]
@@ -109,15 +143,18 @@ NotFoundError.prototype.name = 'NotFoundError';
  */
 function ConflictError(message, config) {
   message = message || 'Conflict';
-  CustomError.apply(this, [message, config]);
-  this.code = 409;
+  BaseError.apply(this, [message, { ...config, httpStatusCode: 409 }]);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, ConflictError);
+  }
 }
-ConflictError.prototype = Object.create(CustomError.prototype);
+util.inherits(ConflictError, BaseError);
 ConflictError.prototype.name = 'ConflictError';
 
 export {
   CustomError,
-  RequestValidationError,
+  BaseError,
+  BadRequestError,
   AuthenticationError,
   AuthorizationError,
   NotFoundError,

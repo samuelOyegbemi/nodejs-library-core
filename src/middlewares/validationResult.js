@@ -1,5 +1,5 @@
 import { validationResult as vRes } from 'express-validator';
-import { RequestValidationError } from '../helpers/errors';
+import { BadRequestError } from '../helpers/errors';
 
 /**
  * @method validationResult
@@ -9,7 +9,7 @@ import { RequestValidationError } from '../helpers/errors';
 const validationResult = message => (req, res, next) => {
   const errors = vRes(req);
   if (!errors.isEmpty()) {
-    throw new RequestValidationError(message || 'Invalid request data', { reason: errors });
+    throw new BadRequestError(message || 'Invalid request data', { reason: errors });
   }
   next();
 };

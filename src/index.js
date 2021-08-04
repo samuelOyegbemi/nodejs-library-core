@@ -2,7 +2,7 @@ export * from './config/cors';
 export * from './config/jwt';
 export * from './config/regExp';
 export * from './helpers/errors';
-export * from './helpers';
+export * from './helpers/utility';
 export * from './helpers/jwt';
 export * from './helpers/logger';
 export * from './helpers/response';

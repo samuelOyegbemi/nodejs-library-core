@@ -1,5 +1,5 @@
 import { logger } from '../helpers/logger';
-import { CustomError } from '../helpers/errors';
+import { BaseError } from '../helpers/errors';
 
 /**
  * @method errorHandler
@@ -7,9 +7,9 @@ import { CustomError } from '../helpers/errors';
  * @returns {function(Error, Object, Object, Function): JSON} Express middleware function
  */
 const errorHandler = (includeStackTrace = false) => (error, req, res, next) => {
-  if (!(error instanceof CustomError)) {
+  if (!(error instanceof BaseError)) {
     error = error || {};
-    error = new CustomError(error.message, { stackTrace: error.stack });
+    error = new BaseError(error.message, { stackTrace: error.stack });
   }
   if (error.code === 500) {
     try {

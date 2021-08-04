@@ -1,4 +1,4 @@
-import { body, param, query } from 'express-validator';
+import { body as bodyVal, param as paramVal, query as queryVal } from 'express-validator';
 import { regExp } from '../config/regExp';
 
 /**
@@ -31,81 +31,80 @@ import { regExp } from '../config/regExp';
  */
 
 /**
- * @const bodyValidator
+ * @typedef {Object} ValidatorInstance
  * @property {CustomValidator} email
  * @property {CustomValidator} password
  * @property {CustomConfirmValidator} confirm
  * @property {CustomMatchPatterValidator} matchPattern
  * @property {CustomRequiredValidator} required
- */
-const bodyValidator = {
-  email: (fieldName = 'email', message = '') =>
-    body(fieldName)
-      .matches(regExp.EMAIL)
-      .withMessage(message || `[${fieldName}] Invalid email field`),
-  password: (fieldName = 'password', message = '') =>
-    body(fieldName)
-      .matches(regExp.PASSWORD)
-      .withMessage(
-        message ||
-          `[${fieldName}], Password field must contain at least one uppercase, one lowercase and one number`,
-      ),
-  confirm: (fieldName = 'confirm_password', benchmark = 'password', message = '') =>
-    body(fieldName).custom(async (confirmPassword, { req }) => {
-      const benchmarkValue = req.body[benchmark] || '';
-      if (benchmarkValue !== confirmPassword) {
-        throw new Error(message || `[${fieldName}] must match with [${benchmark}]`);
-      }
-    }),
-  matchPattern: (fieldName, pattern, message = '') =>
-    body(fieldName).custom(async fieldValue => {
-      if ({}.toString.call(pattern) === '[object RegExp]' && !pattern.test(fieldValue)) {
-        throw new Error(message || `[${fieldName}] must match pattern test`);
-      }
-    }),
-  required: (...fieldNames) =>
-    fieldNames.map(f =>
-      body(f)
-        .notEmpty()
-        .withMessage(`[${f}] is required`),
-    ),
-};
+ * */
+
+const callee = { bodyVal, paramVal, queryVal };
 
 /**
- * @method getValidator
- * @param {Function} fx
+ * @ignore
  * @param {string} location
- * @returns {{matchPattern: (function(*=, *=, *=): any), required: (function(...[*]): any[])}} Validator Object
- */
-const getValidator = (fx, location) => {
+ * @return {*} Validator Instance
+ * */
+const getValidator = location => {
   return {
+    email: (fieldName = 'email', message = '') =>
+      callee[`${location}Val`](fieldName)
+        .matches(regExp.EMAIL)
+        .withMessage(message || `[${fieldName}] Invalid email field in req.${location}`),
+    password: (fieldName = 'password', message = '') =>
+      callee[`${location}Val`](fieldName)
+        .matches(regExp.PASSWORD)
+        .withMessage(
+          message ||
+            `[${fieldName}], Password field must contain at least one` +
+              `uppercase, one lowercase and one number in req.${location}`,
+        ),
+    confirm: (fieldName = 'confirm_password', benchmark = 'password', message = '') =>
+      callee[`${location}Val`](fieldName).custom(async (confirmPassword, { req }) => {
+        const benchmarkValue = req[location][benchmark] || '';
+        if (benchmarkValue !== confirmPassword) {
+          throw new Error(
+            message || `[${fieldName}] must match with [${benchmark}] in req.${location}`,
+          );
+        }
+      }),
     matchPattern: (fieldName, pattern, message = '') =>
-      fx(fieldName).custom(async fieldValue => {
+      callee[`${location}Val`](fieldName).custom(async fieldValue => {
         if ({}.toString.call(pattern) === '[object RegExp]' && !pattern.test(fieldValue)) {
-          throw new Error(message || `[${fieldName}] must match pattern test in ${location}`);
+          throw new Error(message || `[${fieldName}] must match pattern test in req.${location}`);
         }
       }),
     required: (...fieldNames) =>
       fieldNames.map(f =>
-        fx(f)
+        callee[`${location}Val`](f)
           .notEmpty()
-          .withMessage(`[${f}] is required in ${location}`),
+          .withMessage(`[${f}] is required in req.${location}`),
       ),
   };
 };
 
 /**
- * @const paramValidator
- * @property {CustomMatchPatterValidator} matchPattern
- * @property {CustomRequiredValidator} required
- */
-const paramValidator = getValidator(param, 'req.param');
+ * @namespace validator
+ * */
+const validator = {};
 
 /**
- * @const queryValidator
- * @property {CustomMatchPatterValidator} matchPattern
- * @property {CustomRequiredValidator} required
+ * @type {ValidatorInstance}
+ * @memberOf validator
  */
-const queryValidator = getValidator(query, 'req.query');
+validator.body = getValidator('body');
 
-export { bodyValidator, paramValidator, queryValidator };
+/**
+ * @type {ValidatorInstance}
+ * @memberOf validator
+ */
+validator.param = getValidator('param');
+
+/**
+ * @type {ValidatorInstance}
+ * @memberOf validator
+ */
+validator.query = getValidator('query');
+
+export { validator };

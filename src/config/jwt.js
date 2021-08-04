@@ -1,4 +1,4 @@
-import { getEnv } from '../helpers';
+import { getEnv } from '../helpers/utility';
 
 const env = getEnv();
 
@@ -10,7 +10,7 @@ const env = getEnv();
  * @property {string} REFRESH_TOKEN_LIFESPAN
  */
 export const jwtConfig = {
-  SECRET_KEY: env.APP_KEY,
+  SECRET_KEY: env.appKey || env.APP_KEY,
   ACTIVATION_TOKEN_LIFESPAN: env.ACTIVATION_TOKEN_LIFESPAN || '6h',
   ACCESS_TOKEN_LIFESPAN: env.ACCESS_TOKEN_LIFESPAN || '1h',
   REFRESH_TOKEN_LIFESPAN: env.REFRESH_TOKEN_LIFESPAN || '7d',
