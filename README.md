@@ -651,102 +651,6 @@ Application logger
 | url | <code>String</code> | url to redirect to |
 | [code] | <code>Number</code> | 301 or 302 based on permanent or temporary |
 
-# Uploader
-## Modules
-
-<dl>
-<dt><a href="#module_uploader">uploader</a></dt>
-<dd></dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#toDataUri">toDataUri(config)</a> ⇒ <code>*</code></dt>
-<dd><p>This function converts the buffer to data url</p>
-</dd>
-</dl>
-
-<a name="module_uploader"></a>
-
-## uploader
-
-* [uploader](#module_uploader)
-    * [~initialize(req, res, next)](#module_uploader..initialize) ⇒ <code>null</code>
-    * [~uploadImageFromDataURI(dataURI, fileName, [folder])](#module_uploader..uploadImageFromDataURI) ⇒ <code>Promise.&lt;\*&gt;</code>
-    * [~uploadImageFromFile(file, fileName, [folder])](#module_uploader..uploadImageFromFile) ⇒ <code>Promise.&lt;\*&gt;</code>
-    * [~removeImage(link)](#module_uploader..removeImage) ⇒ <code>\*</code>
-    * [~getFilesInFolder(folder)](#module_uploader..getFilesInFolder) ⇒ <code>Promise.&lt;any&gt;</code>
-
-<a name="module_uploader..initialize"></a>
-
-### uploader~initialize(req, res, next) ⇒ <code>null</code>
-**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
-**Returns**: <code>null</code> - Null  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| req | <code>Object</code> | Express request object |
-| req.cloudConfig | <code>Object</code> | Cloud configuration which must be appended to request object |
-| res | <code>Object</code> | Express response object |
-| next | <code>function</code> | Express next function |
-
-<a name="module_uploader..uploadImageFromDataURI"></a>
-
-### uploader~uploadImageFromDataURI(dataURI, fileName, [folder]) ⇒ <code>Promise.&lt;\*&gt;</code>
-**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
-**Returns**: <code>Promise.&lt;\*&gt;</code> - Uploader  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataURI | <code>string</code> | a base64 representation of the file |
-| fileName | <code>string</code> | Name of the file to upload |
-| [folder] | <code>string</code> | the folder to upload the file excluding the main folder |
-
-<a name="module_uploader..uploadImageFromFile"></a>
-
-### uploader~uploadImageFromFile(file, fileName, [folder]) ⇒ <code>Promise.&lt;\*&gt;</code>
-**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
-**Returns**: <code>Promise.&lt;\*&gt;</code> - Uploader  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| file | <code>\*</code> | file |
-| fileName | <code>string</code> | Name of the file to upload |
-| [folder] | <code>string</code> | the folder to upload the file excluding the main folder |
-
-<a name="module_uploader..removeImage"></a>
-
-### uploader~removeImage(link) ⇒ <code>\*</code>
-**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
-**Returns**: <code>\*</code> - Null  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| link | <code>string</code> | The cloudinary link to the image |
-
-<a name="module_uploader..getFilesInFolder"></a>
-
-### uploader~getFilesInFolder(folder) ⇒ <code>Promise.&lt;any&gt;</code>
-**Kind**: inner method of [<code>uploader</code>](#module_uploader)  
-**Returns**: <code>Promise.&lt;any&gt;</code> - Resources  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| folder | <code>string</code> | the folder to load the files from |
-
-<a name="toDataUri"></a>
-
-## toDataUri(config) ⇒ <code>\*</code>
-This function converts the buffer to data url
-
-**Kind**: global function  
-**Returns**: <code>\*</code> - The data url from the string buffer  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> \| <code>File</code> | Express request object |
-
 # Validators
 ## Objects
 
@@ -882,20 +786,6 @@ This function converts the buffer to data url
 | Param | Type | Description |
 | --- | --- | --- |
 | [message] | <code>string</code> | The message to display to user |
-
-<a name="multerUploads"></a>
-
-## multerUploads
-**Kind**: global constant  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| single | <code>function</code> | 
-| any | <code>function</code> | 
-| array | <code>function</code> | 
-| fields | <code>function</code> | 
-| none | <code>function</code> |
 
 <a name="preloadSwagger"></a>
 
