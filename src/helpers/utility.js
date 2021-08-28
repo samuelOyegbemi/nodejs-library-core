@@ -26,6 +26,40 @@ const isTypeOf = (varToCheck, type) =>
   varToCheck && {}.toString.call(varToCheck) === `[object ${type}]`;
 
 /**
+ * @name varType
+ * @param {*} variable
+ * @return {{isBoolean: boolean, isObject: boolean, isSymbol: boolean, isFunction: boolean, isNumber: boolean, isNull: boolean, isString: boolean, isUndefined: boolean}} check - the strict type of a variable
+ */
+const varType = variable => {
+  return {
+    get isFunction() {
+      return typeof variable === 'function';
+    },
+    get isString() {
+      return typeof variable === 'string';
+    },
+    get isNumber() {
+      return typeof variable === 'number';
+    },
+    get isBoolean() {
+      return typeof variable === 'boolean';
+    },
+    get isUndefined() {
+      return typeof variable === 'undefined';
+    },
+    get isNull() {
+      return variable === null;
+    },
+    get isObject() {
+      return typeof variable === 'object';
+    },
+    get isSymbol() {
+      return typeof variable === 'symbol';
+    },
+  };
+};
+
+/**
  * @method getDistinctFrequency
  * @param {Array | string} array - The port to normalize
  * @return {Object} Frequency counter
@@ -358,6 +392,7 @@ export {
   getEnv,
   setEnv,
   isTypeOf,
+  varType,
   getCookieDomain,
   getTokensFromRequest,
   setTokensToResponse,
