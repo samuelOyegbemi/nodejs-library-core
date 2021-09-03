@@ -1,4 +1,10 @@
-import { body as bodyVal, param as paramVal, query as queryVal } from 'express-validator';
+import {
+  body as bodyVal,
+  param as paramVal,
+  query as queryVal,
+  oneOf,
+  check,
+} from 'express-validator';
 import { regExp } from '../config/regExp';
 
 /**
@@ -106,5 +112,18 @@ validator.param = getValidator('param');
  * @memberOf validator
  */
 validator.query = getValidator('query');
+
+/**
+ * @param {Array.<ValidatorInstance>}
+ * @memberOf validator
+ */
+validator.oneOf = oneOf;
+
+/**
+ * @param {*} fields
+ * @param {string} message
+ * @memberOf validator
+ */
+validator.check = check;
 
 export { validator };
