@@ -15,17 +15,29 @@ const checkPrivilege = (privilege, assignedPrivileges) => {
 /**
  * @method requirePrivilege
  * @param {Object} requirements - The requirements
- * @param {string} [requirements.has] - Checks for this privilege
- * @param {string[]} [requirements.hasAll] - Checks for all privilege in this array
- * @param {string[]} [requirements.hasAny] - Checks for any privilege in this array
- * @param {string} [errorMessage] - Error message to show user in case requirement not met
+ * @param {string | function(*):string} [requirements.has] - Checks for this privilege
+ * @param {string[] | function(*):string[]} [requirements.hasAll] - Checks for all privilege in this array
+ * @param {string[] | function(*):string[]} [requirements.hasAny] - Checks for any privilege in this array
+ * @param {Object} [config] - other configurations
+ * @param {string} [config.errorMessage] - Error message to show user in case requirement not met
+ * @param {string} [config.privilegeKey=privilegeList] - Key to check privilege list in req.user
  * @return {function(*, *, *): *} Privilege checker middleware
  */
-const requirePrivilege = (requirements, errorMessage = '') => {
-  const { has, hasAll, hasAny } = requirements || {};
+const requirePrivilege = (requirements, config) => {
+  const { errorMessage = '', privilegeKey = 'privilegeList' } = config;
+  let { has, hasAll, hasAny } = requirements || {};
   return async (req, res, next) => {
+    if (has && typeof has === 'function') {
+      has = await has(req);
+    }
+    if (hasAll && typeof hasAll === 'function') {
+      hasAll = await hasAll(req);
+    }
+    if (hasAny && typeof hasAny === 'function') {
+      hasAny = await hasAny(req);
+    }
     let isAuthorized = true;
-    const userAssignedPrivileges = getDistinctFrequency((req.user || {}).privilegeList || []);
+    const userAssignedPrivileges = getDistinctFrequency((req.user || {})[privilegeKey] || []);
     if (has) {
       isAuthorized = isAuthorized && checkPrivilege(has, userAssignedPrivileges);
     }

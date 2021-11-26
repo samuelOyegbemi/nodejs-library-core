@@ -813,17 +813,19 @@ Application logger
 
 <a name="requirePrivilege"></a>
 
-## requirePrivilege(requirements, [errorMessage]) ⇒ <code>function</code>
-**Kind**: global function  
-**Returns**: <code>function</code> - Privilege checker middleware  
+## requirePrivilege(requirements, [config]) ⇒ <code>function</code>
+**Kind**: global function
+**Returns**: <code>function</code> - Privilege checker middleware
 
-| Param | Type | Description |
-| --- | --- | --- |
-| requirements | <code>Object</code> | The requirements |
-| [requirements.has] | <code>string</code> | Checks for this privilege |
-| [requirements.hasAll] | <code>Array.&lt;string&gt;</code> | Checks for all privilege in this array |
-| [requirements.hasAny] | <code>Array.&lt;string&gt;</code> | Checks for any privilege in this array |
-| [errorMessage] | <code>string</code> | Error message to show user in case requirement not met |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| requirements | <code>Object</code> |  | The requirements |
+| [requirements.has] | <code>string</code> \| <code>function</code> |  | Checks for this privilege |
+| [requirements.hasAll] | <code>Array.&lt;string&gt;</code> \| <code>function</code> |  | Checks for all privilege in this array |
+| [requirements.hasAny] | <code>Array.&lt;string&gt;</code> \| <code>function</code> |  | Checks for any privilege in this array |
+| [config] | <code>Object</code> |  | other configurations |
+| [config.errorMessage] | <code>string</code> |  | Error message to show user in case requirement not met |
+| [config.privilegeKey] | <code>string</code> | <code>&quot;privilegeList&quot;</code> | Key to check privilege list in req.user |
 
 <a name="validationResult"></a>
 
