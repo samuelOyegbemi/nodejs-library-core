@@ -23,7 +23,8 @@ const checkPrivilege = (privilege, assignedPrivileges) => {
  * @param {string} [config.privilegeKey=privilegeList] - Key to check privilege list in req.user
  * @return {function(*, *, *): *} Privilege checker middleware
  */
-const requirePrivilege = (requirements, config) => {
+const requirePrivilege = (requirements, config = {}) => {
+  if (typeof config !== 'object') config = {};
   const { errorMessage = '', privilegeKey = 'privilegeList' } = config;
   let { has, hasAll, hasAny } = requirements || {};
   return async (req, res, next) => {
