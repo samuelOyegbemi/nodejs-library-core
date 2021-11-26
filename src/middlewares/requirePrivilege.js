@@ -26,8 +26,8 @@ const checkPrivilege = (privilege, assignedPrivileges) => {
 const requirePrivilege = (requirements, config = {}) => {
   if (typeof config !== 'object') config = {};
   const { errorMessage = '', privilegeKey = 'privilegeList' } = config;
-  let { has, hasAll, hasAny } = requirements || {};
   return async (req, res, next) => {
+    let { has, hasAll, hasAny } = requirements || {};
     if (has && typeof has === 'function') {
       has = await has(req);
     }
